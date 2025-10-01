@@ -11,7 +11,7 @@
         :id="props.inputName"
         :placeholder="props.placeholder"
         :value="props.modelValue"
-        @input="$emit('update:modelValue', $event.target.value)"
+        @input="onInput"
         :class="[
           'block w-56 rounded-md py-1.5 px-2 ring-1 ring-inset ring-gray-400 focus:text-white text-white',
           props.inputError ? 'ring-red-500' : 'focus:ring-gray-600',
@@ -23,7 +23,7 @@
         :name="props.inputName"
         :id="props.inputName"
         :value="props.modelValue"
-        @change="$emit('update:modelValue', $event.target.value)"
+        @change="onChange"
         :class="[
           'block w-56 rounded-md py-1.5 px-2 ring-1 ring-inset ring-gray-400 focus:text-gray-800 text-white',
           props.inputError ? 'ring-red-500' : 'focus:ring-gray-600',
@@ -78,4 +78,16 @@ const props = defineProps({
     default: undefined,
   },
 })
+
+const emit = defineEmits(['update:modelValue'])
+
+function onInput(event: Event) {
+  const target = event.target as HTMLInputElement | null
+  emit('update:modelValue', target?.value ?? '')
+}
+
+function onChange(event: Event) {
+  const target = event.target as HTMLSelectElement | null
+  emit('update:modelValue', target?.value ?? '')
+}
 </script>
